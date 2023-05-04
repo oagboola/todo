@@ -23,7 +23,7 @@ const login = async (req, res, next) => {
       if (err) {
         return res.status(500).json({ status: "error", message: err });
       }
-      return res.redirect("/");
+      res.json(user);
     });
   })(req, res, next);
 };
