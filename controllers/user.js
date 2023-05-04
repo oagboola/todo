@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
-const db = require("../models");
+const { User, Todo } = require("../models");
 const passport = require("../config/passport");
-
-const { User } = db;
 
 const create = async (req, res) => {
   const { password: pwd, ...rest } = req.body;
@@ -30,9 +28,25 @@ const login = async (req, res, next) => {
   })(req, res, next);
 };
 
+const get = async (req, res) => {
+  const { id, email, name, Todos } = await User.findOne({
+    where: { id: req.user.id },
+    include: Todo,
+  });
+  res.json({ id, email, name, todos: Todos });
+};
+
+const logout = async (req, res) => {
+  req.logout((err) => {
+    if (err)
+      res.status(500).json({ status: err, message: "Error logging user out" });
+    res.redirect("/");
+  });
+};
+
 const encryptPassword = async (pwd) => {
   const hash = await bcrypt.hashSync(pwd, 10);
   return hash;
 };
 
-module.exports = { create, login };
+module.exports = { create, login, get, logout };

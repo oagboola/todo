@@ -33,5 +33,3 @@ routes(app);
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
 });
-
-// sequelize.sync();
