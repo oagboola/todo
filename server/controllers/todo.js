@@ -37,7 +37,7 @@ const updateStatus = async (req, res) => {
 
 const remove = async (req, res) => {
   const { id } = req.params;
-  await Todo.destroy({ where: { id } });
+  await Todo.destroy({ where: { id, UserId: req.user.id } });
   res.json({ message: "success" });
 };
 
