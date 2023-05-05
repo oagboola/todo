@@ -11,8 +11,8 @@ function App() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const user = await api.get("/users");
-        setUser(user);
+        const response = await api.get("/users");
+        setUser(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -33,7 +33,11 @@ function App() {
         )}
       </Row>
       <Row>
-        {user ? <Todo todos={user.todos || []} /> : <Home setUser={setUser} />}
+        {user ? (
+          <Todo todolist={user.todos || []} />
+        ) : (
+          <Home setUser={setUser} />
+        )}
       </Row>
     </Container>
   );

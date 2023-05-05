@@ -14,4 +14,18 @@ const create = (req, res, next) => {
   }
 };
 
-module.exports = { create };
+const updateStatus = (req, res, next) => {
+  const { error } = Joi.object({
+    status: Joi.string().valid("pending", "done").required(),
+  }).validate(req.body);
+  if (error) {
+    res.status(406);
+    res.json({
+      message: "Invalid request: " + error,
+    });
+  } else {
+    next();
+  }
+};
+
+module.exports = { create, updateStatus };

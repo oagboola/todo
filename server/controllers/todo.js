@@ -25,10 +25,11 @@ const update = async (req, res) => {
   res.json(...todo);
 };
 
-const markAsDone = async (req, res) => {
+const updateStatus = async (req, res) => {
   const { id } = req.params;
+  const { status } = req.body;
   const [_, todo] = await Todo.update(
-    { status: "done" },
+    { status: status },
     { where: { id }, returning: true }
   );
   res.json(...todo);
@@ -40,4 +41,4 @@ const remove = async (req, res) => {
   res.json({ message: "success" });
 };
 
-module.exports = { create, list, update, markAsDone, remove };
+module.exports = { create, list, update, updateStatus, remove };

@@ -10,12 +10,14 @@ import {
 } from "react-bootstrap";
 import api from "../api";
 
-function Todo({ todos }) {
+function Todo({ todolist }) {
   const [newTodo, setNewTodo] = useState("");
+  const [todos, setTodos] = useState(todolist);
   const handleClick = () => {
     const addTodo = async () => {
       try {
         const response = await api.post("/todos", { description: newTodo });
+        setTodos([...todos, response.data]);
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -25,6 +27,15 @@ function Todo({ todos }) {
   };
   const handleChange = (e) => {
     setNewTodo(e.target.value);
+  };
+  const handleStatusChange = async (e) => {
+    try {
+      await api.post(`/todos/${e.target.value}/status`, {
+        status: e.target.checked ? "done" : "pending",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Container>
@@ -37,11 +48,14 @@ function Todo({ todos }) {
             <Col>
               <ListGroup defaultActiveKey="#link1">
                 {todos.map((todo) => (
-                  <ListGroup.Item action>
+                  <ListGroup.Item action key={todo.id}>
                     <Form.Check
                       type="checkbox"
                       id="default-checkbox"
                       label={todo.description}
+                      defaultChecked={todo.status === "done"}
+                      onChange={handleStatusChange}
+                      value={todo.id}
                     />
                   </ListGroup.Item>
                 ))}
