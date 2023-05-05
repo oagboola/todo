@@ -14,10 +14,11 @@ import api from "../api";
 function Todo({ todolist }) {
   const [newTodo, setNewTodo] = useState("");
   const [todos, setTodos] = useState(todolist);
-  const handleClick = () => {
+  const handleNewTodo = () => {
     const addTodo = async () => {
       try {
         const response = await api.post("/todos", { description: newTodo });
+        setNewTodo("");
         setTodos([...todos, response.data]);
       } catch (error) {
         console.log(error);
@@ -151,11 +152,17 @@ function Todo({ todolist }) {
                 aria-describedby="basic-addon1"
                 value={newTodo}
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleNewTodo();
+                  }
+                }}
               />
               <Button
                 variant="primary"
                 id="button-addon2"
-                onClick={handleClick}
+                onClick={handleNewTodo}
               >
                 Submit
               </Button>
