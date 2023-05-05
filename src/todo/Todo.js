@@ -29,11 +29,22 @@ function Todo({ todolist }) {
   const handleChange = (e) => {
     setNewTodo(e.target.value);
   };
-  const handleStatusChange = async (e) => {
+  const handleStatusChange = async (e, todo) => {
     try {
       await api.put(`/todos/${e.target.value}/status`, {
         status: e.target.checked ? "done" : "pending",
       });
+      const updatedList = todos.map((td) => {
+        if (td.id === todo.id) {
+          const updatedItem = {
+            ...td,
+            status: e.target.checked ? "done" : "pending",
+          };
+          return updatedItem;
+        }
+        return td;
+      });
+      setTodos(updatedList);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +108,9 @@ function Todo({ todolist }) {
                             type="checkbox"
                             id="default-checkbox"
                             defaultChecked={todo.status === "done"}
-                            onChange={handleStatusChange}
+                            onChange={(e) => {
+                              handleStatusChange(e, todo);
+                            }}
                             value={todo.id}
                           />
                         </Col>
@@ -107,6 +120,9 @@ function Todo({ todolist }) {
                             aria-label="Description"
                             aria-describedby="basic-addon1"
                             value={todo.description}
+                            className={
+                              todo.status === "done" ? "done-item" : ""
+                            }
                             onChange={(e) => {
                               handleUpdate(e, todo);
                             }}

@@ -1,3 +1,7 @@
 .list-group .form-control {
   border: 0;
 }
+
+.form-control.done-item {
+  text-decoration: line-through;
+}
