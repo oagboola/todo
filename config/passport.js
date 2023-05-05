@@ -1,5 +1,5 @@
 const passport = require("passport");
-const { User } = require("../models");
+const { User, Todo } = require("../models");
 const LocalStrategy = require("passport-local");
 const bcrypt = require("bcrypt");
 
@@ -8,11 +8,19 @@ passport.use(
     { usernameField: "email" },
     async (username, password, done) => {
       try {
-        const user = await User.findOne({ where: { email: username } });
+        const user = await User.findOne({
+          where: { email: username },
+          include: Todo,
+        });
         if (!user) return done("Invalid credentials");
         const confirmPassword = await verifyPassword(password, user.password);
         if (!confirmPassword) return done("Invalid credentialsss");
-        return done(null, { id: user.id, email: user.email, name: user.name });
+        return done(null, {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          todos: user.Todos,
+        });
       } catch (e) {
         return done(e);
       }

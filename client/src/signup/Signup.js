@@ -11,7 +11,6 @@ function Signup({ setUser }) {
   const handleClick = async () => {
     try {
       const response = await api.post("/users/register", formState);
-      localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data);
     } catch (error) {
       console.log(error);

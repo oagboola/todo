@@ -3,29 +3,39 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./home/Home";
 import Todo from "./todo/Todo";
 import { Col, Container, Row } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "./api";
 
 function App() {
-  const loggedInUser = localStorage.getItem("user");
-  const [user, setUser] = useState(loggedInUser);
+  const [user, setUser] = useState();
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const user = await api.get("/users");
+        console.log(user);
+        setUser(user);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+  });
 
-  const handleClick = () => {
-    localStorage.setItem("user", "");
-    setUser("");
-  };
   return (
     <Container>
-      <Row className="text-center">
+      <Row className="text-center mt-5">
         <Col md={{ span: 10 }}>
           <h2>My Todo App</h2>
         </Col>
         {user && (
           <Col>
-            <div onClick={handleClick}>Logout</div>
+            <div>Logout</div>
           </Col>
         )}
       </Row>
-      <Row>{user ? <Todo /> : <Home setUser={setUser} />}</Row>
+      <Row>
+        {user ? <Todo todos={user.todos} /> : <Home setUser={setUser} />}
+      </Row>
     </Container>
   );
 }
