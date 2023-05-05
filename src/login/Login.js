@@ -3,7 +3,10 @@ import { Button, Col, Row, Form } from "react-bootstrap";
 import api from "../api";
 
 function Login({ setUser }) {
-  const [formState, setFormState] = useState();
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+  });
   const handleClick = async () => {
     try {
       const response = await api.post("/users/login", formState);
