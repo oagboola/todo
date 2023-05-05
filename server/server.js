@@ -6,6 +6,7 @@ const passport = require("passport");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const cors = require("cors");
+const path = require("path");
 const { sequelize } = require("./models");
 
 const app = express();
@@ -30,6 +31,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(express.static(path.join(__dirname, "..", "build")));
+app.use(express.static("public"));
 routes(app);
 
 app.listen(port, () => {

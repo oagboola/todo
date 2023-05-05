@@ -12,14 +12,13 @@ function App() {
     const getUser = async () => {
       try {
         const user = await api.get("/users");
-        console.log(user);
         setUser(user);
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-  });
+  }, []);
 
   return (
     <Container>
@@ -34,7 +33,7 @@ function App() {
         )}
       </Row>
       <Row>
-        {user ? <Todo todos={user.todos} /> : <Home setUser={setUser} />}
+        {user ? <Todo todos={user.todos || []} /> : <Home setUser={setUser} />}
       </Row>
     </Container>
   );
