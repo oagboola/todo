@@ -11,7 +11,7 @@ function Home({ setUser }) {
   return (
     <Container>
       <Row className="justify-content-md-center">
-        <Col md={{ span: 4 }}>
+        <Col md={{ span: 6 }}>
           {showSignup ? (
             <Signup setUser={setUser} />
           ) : (

@@ -15,7 +15,7 @@ const create = async (req, res) => {
     });
   } catch (error) {
     const err = error.errors || [{ message: error }];
-    res.status(500).json({ error: err[0].message, status: "error" });
+    res.status(500).json({ message: err[0].message, status: "error" });
   }
 };
 
@@ -55,4 +55,4 @@ const encryptPassword = async (pwd) => {
   return hash;
 };
 
-module.exports = { create, login, get, logout };
+module.exports = { create, login, get, logout, encryptPassword };

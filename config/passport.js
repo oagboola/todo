@@ -17,7 +17,7 @@ passport.use(
         });
         if (!user) return done("Invalid credentials");
         const confirmPassword = await verifyPassword(password, user.password);
-        if (!confirmPassword) return done("Invalid credentialsss");
+        if (!confirmPassword) return done("Invalid credentials");
         return done(null, {
           id: user.id,
           email: user.email,
