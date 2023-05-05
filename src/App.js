@@ -1,9 +1,10 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./home/Home";
-import Todo from "./todo/Todo";
 import { Col, Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Home from "./home/Home";
+import Todo from "./todo/Todo";
 import api from "./api";
 
 function App() {
@@ -20,15 +21,22 @@ function App() {
     getUser();
   }, []);
 
+  const logout = async () => {
+    await api.get("/users/logout");
+    setUser("");
+  };
+
   return (
     <Container>
       <Row className="text-center mt-5">
-        <Col md={{ span: 10 }}>
+        <Col md={{ span: 10 }} className="mb-4">
           <h2>My Todo App</h2>
         </Col>
         {user && (
           <Col>
-            <div>Logout</div>
+            <Button variant="danger" onClick={logout}>
+              Logout
+            </Button>
           </Col>
         )}
       </Row>

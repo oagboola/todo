@@ -48,7 +48,6 @@ function Signup({ setUser }) {
                 onChange={handleChange}
               />
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control

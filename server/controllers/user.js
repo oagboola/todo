@@ -37,6 +37,7 @@ const get = async (req, res) => {
   const { id, email, name, Todos } = await User.findOne({
     where: { id: req.user.id },
     include: Todo,
+    order: [[Todo, "createdAt", "ASC"]],
   });
   res.json({ id, email, name, todos: Todos });
 };

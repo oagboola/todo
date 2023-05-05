@@ -11,7 +11,10 @@ const create = async (req, res) => {
 };
 
 const list = async (req, res) => {
-  const todos = await Todo.findAll({ where: { UserId: req.user.id } });
+  const todos = await Todo.findAll({
+    where: { UserId: req.user.id },
+    order: [["createdAt", "ASC"]],
+  });
   res.json(todos);
 };
 

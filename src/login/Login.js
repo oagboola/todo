@@ -4,8 +4,8 @@ import api from "../api";
 
 function Login({ setUser }) {
   const [formState, setFormState] = useState({
-    email: "abc@def.com",
-    password: "balablu",
+    email: "",
+    password: "",
   });
   const handleClick = async () => {
     try {

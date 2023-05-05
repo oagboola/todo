@@ -10,7 +10,10 @@ passport.use(
       try {
         const user = await User.findOne({
           where: { email: username },
-          include: Todo,
+          include: {
+            model: Todo,
+            order: [[Todo, "createdAt", "ASC"]],
+          },
         });
         if (!user) return done("Invalid credentials");
         const confirmPassword = await verifyPassword(password, user.password);
