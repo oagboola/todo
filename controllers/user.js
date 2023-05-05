@@ -6,8 +6,13 @@ const create = async (req, res) => {
   const { password: pwd, ...rest } = req.body;
   try {
     const password = await encryptPassword(pwd);
-    const { id, name, email } = await User.create({ password, ...rest });
-    res.json({ id, name, email });
+    const newUser = await User.create({ password, ...rest });
+    req.login(newUser, (err) => {
+      if (err) {
+        return res.status(500).json({ status: "error", message: err });
+      }
+      res.json({ id: newUser.id, name: newUser.name, email: newUser.email });
+    });
   } catch (error) {
     const err = error.errors || [{ message: error }];
     res.status(500).json({ error: err[0].message, status: "error" });

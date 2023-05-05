@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import api from "../api";
 
-function Login({ setUser }) {
-  const [formState, setFormState] = useState({ email: "", password: "" });
+function Signup({ setUser }) {
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
   const handleClick = async () => {
     try {
-      const response = await api.post("/users/login", formState);
+      const response = await api.post("/users/register", formState);
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data);
     } catch (error) {
@@ -21,10 +25,20 @@ function Login({ setUser }) {
     <Row>
       <Col>
         <Row className="text-center">
-          <h3>Login</h3>
+          <h3>Signup</h3>
         </Row>
         <Row>
           <Form>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                placeholder="Enter name"
+                value={formState.name || ""}
+                onChange={handleChange}
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -67,4 +81,4 @@ function Login({ setUser }) {
   );
 }
 
-export default Login;
+export default Signup;
